@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Employee Review Application</title>
+	<link rel="stylesheet" href="./css/styles.css">
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.min.js"></script>
+	<script src="./js/scripts.js"></script>
+</head>
+<body>
+	<main>
+		<section>
+			<h1>Employee Report</h1>
+			<table class="employees">
+				<!-- The #each helper iterates over an array of items. -->
+				<script id="employee-list" type="text/x-handlebars-template">
+
+  				<!-- employees is looked up on the global context, the one we pass to the compiled template -->
+
+  				{{#each employees}}
+
+    			<!-- Here the context is each individual employee. So we can access its properties directly: -->
+    			<tr>
+    				<td>{{num}}</td>
+    				 <td>{{firstName}}</td>
+    				 <td>{{lastName}}</td>
+    				 <td>{{salary}}</td>
+    				 <td>{{reviewScore}}</td>
+    				 <td><button class="remove">Remove</button>
+    			</tr>
+
+  				{{/each}}
+
+</script>
+			</table>
+		</section>
+	</main>
+	<section class="add">
+		<h1>Add Employee</h1>
+		<form>
+		</form>
+	</section>
+</body>
+</html>
