@@ -83,13 +83,13 @@ function EmployeeList() {
   	$('form').on('submit', function(e){
   		e.preventDefault();
 
-  		$num = $('#num').val();
-  		$firstName = $('#firstName').val();
-  		$lastName = $('#lastName').val();
-  		$reviewScore = $('input[name=reviewScore]:checked').val();
-  		$salary = $('#salary').val();
+  		num = $('#num').val();
+  		firstName = $('#firstName').val();
+  		lastName = $('#lastName').val();
+  		reviewScore = $('input[name=reviewScore]:checked').val();
+  		salary = $('#salary').val();
 
-  		list.addEmployee(new Employee($num, $firstName, $lastName, $salary, $reviewScore));
+  		list.addEmployee(new Employee(num, firstName, lastName, salary, reviewScore));
 
   		// clear existing data
   		$('.employees').empty();
