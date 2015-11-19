@@ -15,24 +15,23 @@
 				<!-- The #each helper iterates over an array of items. -->
 				<script id="employee-list" type="text/x-handlebars-template">
 
-  				<!-- employees is looked up on the global context, the one we pass to the compiled template -->
+	  				<!-- employees is looked up on the global context, the one we pass to the compiled template -->
 
-  				{{#each employees}}
+	  				{{#each employees}}
 
-    			<!-- Here the context is each individual employee. So we can access its properties directly: -->
-    			<tr data-num="{{num}}">
-    				<td>{{num}}</td>
-    				<td>{{firstName}}</td>
-    				<td>{{lastName}}</td>
-    				<td>{{salary}}</td>
-    				<td>{{reviewScore}}</td>
-    				<td><button class="edit">Edit</button>
-    				<td><button class="remove">Remove</button>
-    			</tr>
+	    			<!-- Here the context is each individual employee. So we can access its properties directly: -->
+	    			<tr data-num="{{num}}">
+	    				<td>{{num}}</td>
+	    				<td>{{firstName}}</td>
+	    				<td>{{lastName}}</td>
+	    				<td>{{salary}}</td>
+	    				<td>{{reviewScore}}</td>
+	    				<td><button class="edit">Edit</button>
+	    				<td><button class="remove">Remove</button>
+	    			</tr>
 
-  				{{/each}}
-
-</script>
+	  				{{/each}}
+				</script>
 			</table>
 		</section>
 	</main>
@@ -40,21 +39,27 @@
 		<h1>Add Employee</h1>
 		<form>
 			<script id="employee-form" type="text/x-handlebars-template">
-				<label for="num">Number</label>
-				<input type="text" id="num" name="num" value="{{employee.num}}">
-				<label for="firstName">First Name</label>
-				<input type="text" id="firstName" name="firstName" value="{{employee.firstName}}">
-				<label for="lastName">Last Name</label>
-				<input type="text" id="lastName" name="lastName" value="{{employee.lastName}}">
+				<div class="form-row">
+					<label for="num">Number</label>
+					<input type="text" id="num" name="num" value="{{employee.num}}">
+				</div>
+				<div class="form-row">
+					<label for="firstName">First Name</label>
+					<input type="text" id="firstName" name="firstName" value="{{employee.firstName}}">
+					<label for="lastName">Last Name</label>
+					<input type="text" id="lastName" name="lastName" value="{{employee.lastName}}">
+				</div>
 				<fieldset>
 		        <legend>Review</legend>
 		        	{{#each ratings}}
 			        	<input type="radio" value="{{this}}" id="score_{{this}}" name="reviewScore" {{#areEqual ../employee.reviewScore this}}checked{{/areEqual}} /><label for="score_{{this}}">{{this}}</label>
 			        {{/each}}
-		    	</fieldset>	
-		    	<label for="salary">Salary</label>
-				<input type="text" id="salary" name="salary" value="{{employee.salary}}">
-				<input type="submit" value="Submit">
+		    	</fieldset>
+		    	<div class="form-row">	
+			    	<label for="salary">Salary</label>
+					<input type="text" id="salary" name="salary" value="{{employee.salary}}">
+					<input type="submit" value="Submit">
+				</div>
 			</script>
 		</form>
 	</section>
