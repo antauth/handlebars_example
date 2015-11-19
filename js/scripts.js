@@ -25,7 +25,7 @@ function EmployeeList() {
  	 * @param an employee
  	 */
  	this.addEmployee = function(employee) {
- 		if(numExists(employee.num)) {
+ 		if(this.numExists(employee.num)) {
  			console.log('Unable to create employee, num is not unique.');
  			return;
  		}
@@ -47,11 +47,24 @@ function EmployeeList() {
  	 	}	 	
  	 }
  	 /**
+ 	 * Retrieve an Employee
+ 	 *
+ 	 * @param employee number
+ 	 * @return found Employee
+ 	 */
+ 	 this.getEmployee = function(num) {
+ 	 	for(i = 0; i < list.length; i++) {
+ 	 		if(num == list[i].num) {
+ 	 			return list[i];
+ 	 		}
+ 	 	}	 	
+ 	 }
+ 	 /**
  	  * Check if an employee number already exists
  	  * 
  	  * @param employee number
  	  */
- 	  numExists = function(num) {
+ 	  this.numExists = function(num) {
  	  	return list.some(function(element, index, array) {
  	  		return num == element.num;
  	  	});
@@ -67,36 +80,69 @@ function EmployeeList() {
  	list.addEmployee(new Employee(5, 'Larry', 'Whitmore', 70000, 2));
  	list.addEmployee(new Employee(9, 'Maggie', 'Gyllenhaal', 72000, 5));
 
- 	// create template for displaying employees
- 	var employeeTemplate = $('#employee-list').html();
+ 	// Compile the template
+  	var employeeListTemplate = Handlebars.compile($('#employee-list').html());
+	renderEmployeeList(list.getList());
 
  	// Compile the template
-  	var template = Handlebars.compile(employeeTemplate);
+  	var formTemplate = Handlebars.compile($('#employee-form').html());
+  	renderForm(new Employee("", "", "", "", ""));
 
-  	// Pass our data to the template
-  	var compiledHtml = template({employees: list.getList()});
-
-  	// Add the compiled html to the page
-  	$('.employees').append(compiledHtml);
-
-  	/** ------------ FORM SUBMISSION --------------- **/
-  	$('form').on('submit', function(e){
+  	/** ------------ FORM SUBMISSION ------------ **/
+  	$('.add form').on('submit', function(e){
   		e.preventDefault();
 
-  		$num = $('#num').val();
-  		$firstName = $('#firstName').val();
-  		$lastName = $('#lastName').val();
-  		$reviewScore = $('input[name=reviewScore]:checked').val();
-  		$salary = $('#salary').val();
+  		num = $('#num').val();
+  		firstName = $('#firstName').val();
+  		lastName = $('#lastName').val();
+  		reviewScore = $('input[name=reviewScore]:checked').val();
+  		salary = $('#salary').val();
 
-  		list.addEmployee(new Employee($num, $firstName, $lastName, $salary, $reviewScore));
-
-  		// clear existing data
-  		$('.employees').empty();
-  		// Pass our data to the template
-  		compiledHtml = template({employees: list.getList()});
-  		// Add the compiled html to the page
-  		$('.employees').append(compiledHtml);
+  		if(list.numExists(num)) {
+  			//update object
+  			var emp = list.getEmployee(num);
+  			emp.firstName = firstName;
+  			emp.lastName = lastName;
+  			emp.reviewScore = reviewScore;
+  			emp.salary = salary;
+  		} else {
+  			list.addEmployee(new Employee(num, firstName, lastName, salary, reviewScore));
+  		}
+  		
+  		renderEmployeeList(list.getList());
   	});
 
+  	/** ------------ EMPLOYEE EDIT ------------ **/
+  	$('.employees').on('click', '.edit', function(e){
+  		console.log($(this).parents('tr'));
+  		var employee = list.getEmployee($(this).parents('tr').data('num'));
+
+  		renderForm(employee);
+  	});
+
+
+  	/** ------------ RENDER FUNCTIONS ------------ **/
+  	function renderEmployeeList(employeeList) {
+  		// Pass our data to the template
+  		var compiledHtml = employeeListTemplate({employees: employeeList});
+
+  		// Add the compiled html to the page
+  		$('.employees').html(compiledHtml);
+  	}
+
+  	function renderForm(employee) {
+  		// Pass our data to the template
+  		var compiledHtml = formTemplate({employee: employee, ratings: [1,2,3,4,5]});
+
+  		// Add the compiled html to the page
+  		$('.add form').html(compiledHtml);
+  	}
+
  });
+Handlebars.registerHelper('areEqual', function(arg1, arg2, options) {
+	if(arg1 === arg2) {
+		return options.fn(this);
+	}
+	// run else tag
+	return options.inverse(this);
+});

@@ -20,13 +20,14 @@
   				{{#each employees}}
 
     			<!-- Here the context is each individual employee. So we can access its properties directly: -->
-    			<tr>
+    			<tr data-num="{{num}}">
     				<td>{{num}}</td>
-    				 <td>{{firstName}}</td>
-    				 <td>{{lastName}}</td>
-    				 <td>{{salary}}</td>
-    				 <td>{{reviewScore}}</td>
-    				 <td><button class="remove">Remove</button>
+    				<td>{{firstName}}</td>
+    				<td>{{lastName}}</td>
+    				<td>{{salary}}</td>
+    				<td>{{reviewScore}}</td>
+    				<td><button class="edit">Edit</button>
+    				<td><button class="remove">Remove</button>
     			</tr>
 
   				{{/each}}
@@ -38,23 +39,23 @@
 	<section class="add">
 		<h1>Add Employee</h1>
 		<form>
-			<label for="num">Number</label>
-			<input type="text" id="num" name="num">
-			<label for="firstName">First Name</label>
-			<input type="text" id="firstName" name="firstName">
-			<label for="lastName">Last Name</label>
-			<input type="text" id="lastName" name="lastName">
-			<fieldset>
-	        <legend>Review</legend>
-		        <input type="radio" value="1" id="score_1" name="reviewScore" checked /><label for="score_1">1</label>
-		        <input type="radio" value="2" id="score_2" name="reviewScore" /><label for="score_2">2</label>
-		        <input type="radio" value="3" id="score_3" name="reviewScore" /><label for="score_3">3</label>
-		        <input type="radio" value="4" id="score_4" name="reviewScore" /><label for="score_4">4</label>
-		        <input type="radio" value="5" id="score_5" name="reviewScore" /><label for="score_5">5</label>
-	    	</fieldset>	
-	    	<label for="salary">Salary</label>
-			<input type="text" id="salary" name="salary">
-			<input type="submit" value="Submit">
+			<script id="employee-form" type="text/x-handlebars-template">
+				<label for="num">Number</label>
+				<input type="text" id="num" name="num" value="{{employee.num}}">
+				<label for="firstName">First Name</label>
+				<input type="text" id="firstName" name="firstName" value="{{employee.firstName}}">
+				<label for="lastName">Last Name</label>
+				<input type="text" id="lastName" name="lastName" value="{{employee.lastName}}">
+				<fieldset>
+		        <legend>Review</legend>
+		        	{{#each ratings}}
+			        	<input type="radio" value="{{this}}" id="score_{{this}}" name="reviewScore" {{#areEqual ../employee.reviewScore this}}checked{{/areEqual}} /><label for="score_{{this}}">{{this}}</label>
+			        {{/each}}
+		    	</fieldset>	
+		    	<label for="salary">Salary</label>
+				<input type="text" id="salary" name="salary" value="{{employee.salary}}">
+				<input type="submit" value="Submit">
+			</script>
 		</form>
 	</section>
 </body>
